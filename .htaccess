@@ -1,0 +1,54 @@
+# Enable rewriting
+RewriteEngine On
+
+# Set base directory (adjust if installed in subdirectory)
+RewriteBase /
+
+# Prevent access to data directory
+<IfModule mod_authz_core.c>
+    <Directory "data">
+        Require all denied
+    </Directory>
+</IfModule>
+
+# Legacy Apache 2.2
+<IfModule !mod_authz_core.c>
+    <Directory "data">
+        Order deny,allow
+        Deny from all
+    </Directory>
+</IfModule>
+
+# Optional: Redirect to index.php if accessing root
+DirectoryIndex index.php
+
+# Set longer timeout for long-polling
+<IfModule mod_php7.c>
+    php_value max_execution_time 60
+    php_value default_socket_timeout 60
+</IfModule>
+
+<IfModule mod_php.c>
+    php_value max_execution_time 60
+    php_value default_socket_timeout 60
+</IfModule>
+
+# Compression for better performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Caching headers for static content
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

@@ -1,0 +1,11 @@
+﻿1.	Click "File Manager" in InfinityFree Control Panel
+2.	Go to htdocs folder
+3.	Delete default files
+4.	Upload these files from your apache-version folder:
+•	✅ index.php
+•	✅ host.php
+•	✅ participant.php
+•	✅ api.php
+•	✅ SessionManager.php
+•	✅ .htaccess
+5.	Create a new folder called data
